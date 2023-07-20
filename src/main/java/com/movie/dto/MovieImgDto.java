@@ -2,6 +2,7 @@ package com.movie.dto;
 
 import org.modelmapper.ModelMapper;
 
+import com.movie.entity.Movie;
 import com.movie.entity.MovieImg;
 
 import lombok.Getter;
@@ -15,6 +16,7 @@ public class MovieImgDto {
 	private String oriImgName;
 	private String imgUrl;
 	private String repimgYn;
+	private Movie movie;
 	private static ModelMapper modelMapper = new ModelMapper();
 	
 	// entity -> dto

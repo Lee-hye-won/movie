@@ -16,7 +16,7 @@ import lombok.RequiredArgsConstructor;
 @Transactional
 
 public class MovieImgService {
-	private String movieImgLocation = "C:/movie/img";
+	private String movieImgLocation = "C:/movie/";
 	private final MovieImgRepository movieImgRepository;
 	private final FileService fileService;
 	
@@ -29,7 +29,7 @@ public class MovieImgService {
 		// 1. 파일을 movieImgLocation에 저장
 		if(!StringUtils.isEmpty(oriImgName)) {
 			imgName = fileService.uploadFile(movieImgLocation, oriImgName,movieImgFile.getBytes());
-			imgUrl = "/images/movie/" + imgName;
+			imgUrl = "/img/movie/" + imgName;
 		}
 		
 		// 2. movie_img 테이블에 저장
@@ -54,7 +54,7 @@ public class MovieImgService {
 			// 수정된 파일 경로에 업로드
 			String oriImgName = movieImgFile.getOriginalFilename();
 			String imgName = fileService.uploadFile(movieImgLocation, oriImgName, movieImgFile.getBytes());
-			String imgUrl = "/images/movie/" + imgName;
+			String imgUrl = "/img/movie/" + imgName;
 			
 			savedMovieImg.updateMovieImg(oriImgName, imgName, imgUrl);
 		}

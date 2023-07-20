@@ -10,6 +10,7 @@ import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.multipart.MultipartFile;
 
 import com.movie.dto.MainMovieDto;
+import com.movie.dto.MainMovieListDto;
 import com.movie.dto.MovieFormDto;
 import com.movie.dto.MovieImgDto;
 import com.movie.dto.MovieSearchDto;
@@ -118,8 +119,9 @@ public class MovieService {
 	}
 	
 	@Transactional(readOnly = true)
-	public Page<MainMovieDto> getMainMoviePage(MovieSearchDto movieSearchDto, Pageable pageable) {
-		Page<MainMovieDto> mainMoviePage = movieRepository.getMainMoviePage(movieSearchDto, pageable);
+	public Page<MainMovieListDto> getMainMoviePage(MovieSearchDto movieSearchDto, Pageable pageable) {
+		//Page<MainMovieDto> mainMoviePage = movieRepository.getMainMoviePage(movieSearchDto, pageable);
+		Page<MainMovieListDto> mainMoviePage = movieRepository.getMainMoviePageList("Y", pageable);
 		return mainMoviePage;
 	}
 	

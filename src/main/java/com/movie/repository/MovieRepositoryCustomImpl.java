@@ -76,6 +76,7 @@ public class MovieRepositoryCustomImpl implements MovieRepositoryCustom{
 		QMovie movie = QMovie.movie;
 		QMovieImg movieImg = QMovieImg.movieImg;
 		
+		
 		List<MainMovieDto> content = queryFactory
 				.select(
 						new QMainMovieDto(
@@ -84,7 +85,7 @@ public class MovieRepositoryCustomImpl implements MovieRepositoryCustom{
 								movieImg.imgUrl)
 								)
 						.from(movieImg)
-						//.join(movieImg.movie, movie)
+						.join(movieImg.movie, movie)
 						.where(movieImg.repimgYn.eq("Y"))
 						.where(titleLike(movieSearchDto.getSearchQuery()))
 						.orderBy(movie.id.asc())

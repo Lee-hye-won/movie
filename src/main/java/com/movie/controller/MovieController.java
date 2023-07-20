@@ -19,11 +19,13 @@ import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.MultipartFile;
 
 import com.movie.dto.MainMovieDto;
+import com.movie.dto.MainMovieListDto;
 import com.movie.dto.MovieFormDto;
 import com.movie.dto.MovieSearchDto;
 import com.movie.entity.Movie;
@@ -41,8 +43,8 @@ public class MovieController {
 	// 상영중인 영화 리스트 불러오기 
 	@GetMapping(value= "/movie/shop")
 	public String movieShopList(Model model, MovieSearchDto movieSearchDto, Optional<Integer> page) {
-		Pageable pageable = PageRequest.of(page.isPresent() ? page.get() : 0, 6);
-		Page<MainMovieDto> movies = movieService.getMainMoviePage(movieSearchDto, pageable);
+		Pageable pageable = PageRequest.of(page.isPresent() ? page.get() : 0, 44);
+		Page<MainMovieListDto> movies = movieService.getMainMoviePage(movieSearchDto, pageable);
 	
 		model.addAttribute("movies", movies);
 		model.addAttribute("movieSearchDto", movieSearchDto);
@@ -51,6 +53,18 @@ public class MovieController {
 		return "movie/movieList";
 	}
 	// 곧 개봉하는 영화 리스트 불러오기 
+	
+	
+	// 영화 상세페이지
+	@GetMapping(value = "/movie/{movieId}")
+	public String movieDtl(Model model, @PathVariable("movieId") Long movieId) {
+		
+		MovieFormDto movieFormDto = movieService.getMovieDtl(movieId);
+		model.addAttribute("movie", movieFormDto);
+		return "movie/movieDtl";
+	}
+	
+	
 	
 	// 영화 등록 화면 페이지
 	@GetMapping(value="/admin/movie/new")
@@ -152,7 +166,7 @@ public class MovieController {
 	
 	// 영화 삭제
 	@DeleteMapping("/movie/{movieId}/delete")
-	public @ResponseBody ResponseEntity deletemovie(@PathVariable("movieId") Long movieId,
+	public @ResponseBody ResponseEntity deletemovie(@RequestBody @PathVariable("movieId") Long movieId,
 			Principal principal) {
 		movieService.deleteMovie(movieId);
 		return new ResponseEntity<Long>(movieId, HttpStatus.OK);

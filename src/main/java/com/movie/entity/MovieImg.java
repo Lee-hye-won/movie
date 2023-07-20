@@ -1,5 +1,11 @@
 package com.movie.entity;
 
+import org.hibernate.annotations.OnDelete;
+import org.hibernate.annotations.OnDeleteAction;
+import org.modelmapper.ModelMapper;
+
+import com.movie.dto.MovieImgDto;
+
 import jakarta.persistence.*;
 import lombok.*;
 
@@ -23,6 +29,7 @@ public class MovieImg extends BaseEntity{
 	private String repimgYn;
 	
 	@ManyToOne(fetch = FetchType.LAZY)
+
 	@JoinColumn(name = "movie_id")
 	private Movie movie;
 	
@@ -32,4 +39,8 @@ public class MovieImg extends BaseEntity{
 		this.imgName = imgName;
 		this.imgUrl = imgUrl; 
 	}
+	
+	
+	
+	
 }

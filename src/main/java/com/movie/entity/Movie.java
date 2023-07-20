@@ -3,6 +3,9 @@ package com.movie.entity;
 import java.time.LocalDateTime;
 import java.util.List;
 
+import org.hibernate.annotations.OnDelete;
+import org.hibernate.annotations.OnDeleteAction;
+
 import com.movie.dto.MovieFormDto;
 
 import jakarta.persistence.*;
@@ -44,12 +47,14 @@ public class Movie extends BaseEntity{
 	
 
 	@ManyToOne(fetch = FetchType.LAZY)
+	
 //	@PrimaryKeyJoinColumn(name = "scr_num")
 	@JoinColumn(name = "scr_num")
 	private ScreenInfo screenInfo;
 	
 	@Column(name = "create_by")
 	private String createBy;
+	
 	
 	// 엔티티 수정
 	public void updateMovie(MovieFormDto movieFormDto) {
