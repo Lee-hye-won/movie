@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+	  xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+
+ <div class="header" th:fragment="header">
+        <div class="container">
+            <div class="row">
+                <div class="col-lg-2">
+                    <div class="header__logo">
+                        <a href="/">
+                            <img src="/img/logo.png" alt="로고">
+                        </a>
+                    </div>
+                </div>
+                <div class="col-lg-8">
+                    <div class="header__nav">
+                        <nav class="header__menu mobile-menu">
+                            <ul>
+                                <li class="active"><a href="/movie/shop">영화</a></li>
+                                
+                                <li sec:authorize="hasAnyAuthority('ROLE_ADMIN')"><a>관리자메뉴<span class="arrow_carrot-down"></span></a>
+                                    <ul class="dropdown">
+                                        <li><a href="/admin/movie/new">영화 등록</a></li>
+                                        <li><a href="/admin/movies">영화리스트 관리</a></li>
+                                    </ul>
+                                </li>
+                                
+                               
+                                <li><a href="/movieList">예매<span class="arrow_carrot-down"></span></a>
+                                    <ul class="dropdown">
+                                        <li><a href="./categories.html">예매하기</a></li>
+                                        <li><a href="/movie/movieShop" sec:authorize="isAuthenticated()">예매내역</a></li>
+                                	</ul>
+                                </li>    
+                                       
+                                <li><a href="/members/qa" sec:authorize="isAuthenticated()">문의사항</a></li>
+                                <li><a href="/movie/movieEvent">이벤트</a></li>
+						<li><a href="/members/logout" sec:authorize="isAuthenticated()">로그아웃</a></li>
+                               
+                            </ul>
+                        </nav>
+                    </div>
+                </div>
+                <div class="col-lg-2">
+                    <div class="header__right">
+                        <a href="/members/new" class="search-switch"><span class="icon_search"></span>가입</a>
+                        <a href="/members/login"><span class="icon_profile" sec:authorize="isAnonymous()"></span>로그인</a>
+                    </div>
+                </div>
+            </div>
+            <div id="mobile-menu-wrap"></div>
+        </div>
+    </div>
+
+</html>

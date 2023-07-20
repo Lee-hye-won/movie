@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+	xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+	layout:decorate="~{layouts/layout1}">
+
+
+<th:block layout:fragment="css">
+	<style>
+		.remember {
+			color:#ffffff;
+		}
+</style>
+</th:block>
+
+
+<div layout:fragment="content">
+	<section class="normal-breadcrumb set-bg"
+		data-setbg="/img/normal-breadcrumb.jpg">
+		<div class="container">
+			<div class="row">
+				<div class="col-lg-12 text-center">
+					<div class="normal__breadcrumb__text">
+						<h2>Login</h2>
+						<p>Welcome to the official Anime blog.</p>
+					</div>
+				</div>
+			</div>
+		</div>
+	</section>
+	<!-- Normal Breadcrumb End -->
+
+	<!-- Login Section Begin -->
+	<section class="login spad">
+		<div class="container">
+			<div class="row">
+				<div class="col-lg-6">
+					<div class="login__form">
+						<h3>Login</h3>
+						<form role="form" action="/members/login" method="post">
+							<div class="input__item">
+								<input type="email" th:for="email" id="email" name="email" placeholder="메일을 입력해주세요."> <span
+									class="icon_mail"></span>
+							</div>
+							<div class="input__item">
+								<input  type="password" name="password" id="password" placeholder="Password"> <span
+									class="icon_lock"></span>
+							</div>
+							
+							<div class="from-group remember">
+								<label>								
+									<input type="checkbox" name="id_save" id="id_save">
+									이메일 기억
+								</label>
+							</div>
+							
+							
+							<button type="submit" class="site-btn">Login Now</button>
+							<input type="hidden" th:name="${_csrf.parameterName}"
+								th:value="${_csrf.token}">
+						</form>
+						<a href="#" class="forget_pass">Forgot Your Password?</a>
+					</div>
+				</div>
+				<div class="col-lg-6">
+					<div class="login__register">
+						<h3>Dont’t Have An Account?</h3>
+						<a href="/members/new" class="primary-btn">Register Now</a>
+					</div>
+				</div>
+			</div>
+		
+		</div>
+	</section>
+</div>
+</html>
