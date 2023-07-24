@@ -47,7 +47,7 @@ public class Movie extends BaseEntity{
 	
 
 	@ManyToOne(fetch = FetchType.LAZY)
-	
+	@OnDelete(action= OnDeleteAction.CASCADE)
 //	@PrimaryKeyJoinColumn(name = "scr_num")
 	@JoinColumn(name = "scr_num")
 	private ScreenInfo screenInfo;

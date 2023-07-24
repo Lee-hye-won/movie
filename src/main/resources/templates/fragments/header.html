@@ -3,16 +3,16 @@
 	  xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
 
  <div class="header" th:fragment="header">
-        <div class="container">
+        <div class="container" style="padding:5px !important;">
             <div class="row">
                 <div class="col-lg-2">
-                    <div class="header__logo">
+                    <div class="header__logo" style="padding:0 !important;">
                         <a href="/">
-                            <img src="/img/logo.png" alt="로고">
+                            <img src="/images/myLogo.png" alt="로고" style="height:90px;">
                         </a>
                     </div>
                 </div>
-                <div class="col-lg-8">
+                <div class="col-lg-8" style="align-items:center; display:flex;">
                     <div class="header__nav">
                         <nav class="header__menu mobile-menu">
                             <ul>
@@ -41,9 +41,9 @@
                         </nav>
                     </div>
                 </div>
-                <div class="col-lg-2">
+                <div class="col-lg-2" style="align-items:center; display:flex;">
                     <div class="header__right">
-                        <a href="/members/new" class="search-switch"><span class="icon_search"></span>가입</a>
+                        <a href="/members/new" class="search-switch">가입</a>
                         <a href="/members/login"><span class="icon_profile" sec:authorize="isAnonymous()"></span>로그인</a>
                     </div>
                 </div>

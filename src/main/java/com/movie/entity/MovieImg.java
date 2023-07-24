@@ -29,7 +29,7 @@ public class MovieImg extends BaseEntity{
 	private String repimgYn;
 	
 	@ManyToOne(fetch = FetchType.LAZY)
-
+	@OnDelete(action= OnDeleteAction.CASCADE)
 	@JoinColumn(name = "movie_id")
 	private Movie movie;
 	

@@ -93,6 +93,8 @@ public class MovieService {
 		// MovieFormDto에 이미지 정보 넣어주기
 		movieFormDto.setMovieImgDtoList(movieImgDtoList);
 		
+		
+		
 		return movieFormDto;
 	}
 	

@@ -3,7 +3,21 @@
 	xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
 	layout:decorate="~{layouts/layout1}">
 
+<head>
 <!-- CSS only -->
+<th:block layout:fragment="css">
+<style>
+.gun{
+width: 1296px;
+padding: 0;
+}
+.gun > img{
+width: 33%;
+}
+</style>
+
+</th:block>
+
 <link
 	href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/css/bootstrap.min.css"
 	rel="stylesheet"
@@ -15,15 +29,26 @@
 	integrity="sha384-kenU1KFdBIe4zVF0s0G1M5b4hcpxyD9F7jL+jjXkk+Q2h455rYXK/7HAuoJl+0I4"
 	crossorigin="anonymous"></script>
 
-<div layout:fragment="content" style="padding: 40px 0;">
+<meta name="_csrf" th:content="${_csrf.token}" />
+<meta name="_csrf_header" th:content="${_csrf.headerName}" />
+</head>
+
+
+
+<div layout:fragment="content"
+	style="padding: 40px 0; background-color: #070720;">
 
 	<section class="anime-details spad">
 		<div class="container">
 			<div class="anime__details__content">
 				<div class="row">
+					<input type="hidden" id="movieId" th:value="${movie.id}">
+
 					<div class="col-lg-3">
-						<div class="anime__details__pic set-bg"
-							data-setbg="img/anime/details-pic.jpg">
+						<div class="anime__details__pic set-bg">
+							<img th:src="${movie.movieImgDtoList[0].imgUrl}"
+								class="rounded repImg" th:alt="${movie.title}">
+
 							<div class="comment">
 								<i class="fa fa-comments"></i> 11
 							</div>
@@ -35,8 +60,8 @@
 					<div class="col-lg-9">
 						<div class="anime__details__text">
 							<div class="anime__details__title">
-								<h3>Fate Stay Night: Unlimited Blade</h3>
-								<span>フェイト／ステイナイト, Feito／sutei naito</span>
+								<h3>[[${movie.title}]]</h3>
+								<span>현재 상영중</span>
 							</div>
 							<div class="anime__details__rating">
 								<div class="rating">
@@ -47,45 +72,60 @@
 								</div>
 								<span>1.029 Votes</span>
 							</div>
-							<p>Every human inhabiting the world of Alcia is branded by a
-								“Count” or a number written on their body. For Hina’s mother,
-								her total drops to 0 and she’s pulled into the Abyss, never to
-								be seen again. But her mother’s last words send Hina on a quest
-								to find a legendary hero from the Waste War - the fabled Ace!</p>
+							<p style="font-weight: bold">[[${movie.intro}]]</p>
 							<div class="anime__details__widget">
 								<div class="row">
 									<div class="col-lg-6 col-md-6">
 										<ul>
-											<li><span>Type:</span> TV Series</li>
-											<li><span>Studios:</span> Lerche</li>
-											<li><span>Date aired:</span> Oct 02, 2019 to ?</li>
-											<li><span>Status:</span> Airing</li>
-											<li><span>Genre:</span> Action, Adventure, Fantasy,
-												Magic</li>
+											<li><span>Director:</span>[[${movie.director}]]</li>
+
+											<li><span>Genre:</span>[[${movie.genre}]]</li>
+
+											<li><span>Screen Info:</span>[[${movie.scrNum}]]</li>
+											<li><span>Time:</span>[[${movie.runtime}]]</li>
+											<li><span>Quality:</span> HD</li>
 										</ul>
 									</div>
 									<div class="col-lg-6 col-md-6">
 										<ul>
-											<li><span>Scores:</span> 7.31 / 1,515</li>
-											<li><span>Rating:</span> 8.5 / 161 times</li>
-											<li><span>Duration:</span> 24 min/ep</li>
-											<li><span>Quality:</span> HD</li>
-											<li><span>Views:</span> 131,541</li>
+											<li><span>Actors:</span>[[${movie.actors}]]</li>
+											<li><span>OpenDate:</span>[[${movie.openDate}]]</li>
+											<li><span>Time:</span>[[${movie.runtime}]]</li>
+
 										</ul>
 									</div>
 								</div>
 							</div>
 							<div class="anime__details__btn">
 								<a href="#" class="follow-btn"><i class="fa fa-heart-o"></i>
-									Follow</a> <a href="#" class="watch-btn"><span>Watch Now</span>
-									<i class="fa fa-angle-right"></i></a>
+									좋아요</a> 
+								<a th:href="'/movie/' + ${movie.id} + '/reservation'" class="watch-btn"><i class="fa fa-heart-o"></i><span>예매하기</span> </a>
 							</div>
 						</div>
 					</div>
 				</div>
 			</div>
+			<br/>
+			<br/>
+			<br/>
+			<div class="product__page__title">
+				<div class="row" style="width:1110px">
+					<div class="col-lg-8 col-md-8 col-sm-6" >
+						<div class="section-title">
+							<h4> 스틸컷 </h4>
+						</div>
+						<div style="display:flex;" class="gun">
+						<img th:src="${movie.movieImgDtoList[1].imgUrl}" th:alt="${movie.title + ' 스틸컷1'}"  style=" height:210px; margin-right:50px;">
+						<img th:src="${movie.movieImgDtoList[2].imgUrl}" th:alt="${movie.title + ' 스틸컷2'}"  style=" height:210px; margin-right:50px;">
+						<img th:src="${movie.movieImgDtoList[3].imgUrl}" th:alt="${movie.title + ' 스틸컷3'}"  style=" height:210px; ">
+						</div>
+					</div>
+					
+				</div>
+			</div>
 		</div>
 	</section>
+
 
 
 </div>

@@ -3,49 +3,46 @@
 	xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
 	layout:decorate="~{layouts/layout1}">
 
+<th:block layout:fragment="css">
+	<style>
+.video-background {
+	
+	top: 0;
+	left: 0;
+	width: 100%;
+	height: 100%;
+	z-index: -1; /* 텍스트 위에 동영상이 나타나도록 설정합니다. */
+	overflow: hidden;
+	;
+}
+</style>
+</th:block>
+
+
 <div layout:fragment="content">
-	<section class="hero">
+	<section class="hero" style="background-color:black; padding: 10px; !important;">
 		<div class="container">
-			<div class="hero__slider owl-carousel">
-				<div class="hero__items set-bg" data-setbg="img/hero/hero-1.jpg">
-					<div class="row">
+			<div class="video-background">
+				<div class="hero__items set-bg" style="padding: 10px; !important;">
+					<video width="1140" height="579" autoplay loop muted >
+						<source src="/my_vedio.mp4" type="video/mp4">
+
+					</video>
+
+
+				<!-- 	<div class="row">
 						<div class="col-lg-6">
 							<div class="hero__text">
-								<div class="label">Adventure</div>
+								<div class="label">ddd</div>
 								<h2>Fate / Stay Night: Unlimited Blade Works</h2>
 								<p>After 30 days of travel across the world...</p>
 								<a href="#"><span>Watch Now</span> <i
 									class="fa fa-angle-right"></i></a>
 							</div>
 						</div>
-					</div>
+					</div> -->
 				</div>
-				<div class="hero__items set-bg" data-setbg="img/hero/hero-1.jpg">
-					<div class="row">
-						<div class="col-lg-6">
-							<div class="hero__text">
-								<div class="label">Adventure</div>
-								<h2>Fate / Stay Night: Unlimited Blade Works</h2>
-								<p>After 30 days of travel across the world...</p>
-								<a href="#"><span>Watch Now</span> <i
-									class="fa fa-angle-right"></i></a>
-							</div>
-						</div>
-					</div>
-				</div>
-				<div class="hero__items set-bg" data-setbg="img/hero/hero-1.jpg">
-					<div class="row">
-						<div class="col-lg-6">
-							<div class="hero__text">
-								<div class="label">Adventure</div>
-								<h2>Fate / Stay Night: Unlimited Blade Works</h2>
-								<p>After 30 days of travel across the world...</p>
-								<a href="#"><span>Watch Now</span> <i
-									class="fa fa-angle-right"></i></a>
-							</div>
-						</div>
-					</div>
-				</div>
+
 			</div>
 		</div>
 	</section>

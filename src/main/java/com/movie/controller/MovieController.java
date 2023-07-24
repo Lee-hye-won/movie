@@ -43,7 +43,7 @@ public class MovieController {
 	// 상영중인 영화 리스트 불러오기 
 	@GetMapping(value= "/movie/shop")
 	public String movieShopList(Model model, MovieSearchDto movieSearchDto, Optional<Integer> page) {
-		Pageable pageable = PageRequest.of(page.isPresent() ? page.get() : 0, 44);
+		Pageable pageable = PageRequest.of(page.isPresent() ? page.get() : 0, 9);
 		Page<MainMovieListDto> movies = movieService.getMainMoviePage(movieSearchDto, pageable);
 	
 		model.addAttribute("movies", movies);
@@ -163,6 +163,17 @@ public class MovieController {
 		return "redirect:/";
 		
 	}
+	
+	// 예매하기로 넘어가기
+	@GetMapping(value = {"/movie/{movieId}/reservation", "/movie/reservation/{movieId}"}) 
+	public String movieRes(Model model, @PathVariable("movieId") Long movieId) {
+		
+		MovieFormDto movieFormDto = movieService.getMovieDtl(movieId);
+		model.addAttribute("movie", movieFormDto);
+		
+		return "screenInfo/screen";
+	}
+	
 	
 	// 영화 삭제
 	@DeleteMapping("/movie/{movieId}/delete")
