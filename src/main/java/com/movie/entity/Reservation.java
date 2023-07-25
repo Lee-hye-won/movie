@@ -51,6 +51,14 @@ public class Reservation {
 	@Column(name="res_ pay")
 	private Long resPay;	// 예매 결제금액
 	
+	@Column(name="seatLine")
+	private List<String> seatLine;	// 예매좌석 열
+	
+	@Column(name="seatRow")
+	private List<String> seatRow;	// 예매좌석 행
+	
+	
+	
 	@ManyToOne
 	@JoinColumn(name = "movie_id")
 	private Movie movie;
@@ -58,6 +66,8 @@ public class Reservation {
 	@ManyToOne
 	@JoinColumn(name = "member_id")
 	private Member member;
+	
+	
 	
 	
 }

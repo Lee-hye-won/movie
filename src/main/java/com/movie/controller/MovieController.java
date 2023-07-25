@@ -164,15 +164,6 @@ public class MovieController {
 		
 	}
 	
-	// 예매하기로 넘어가기
-	@GetMapping(value = {"/movie/{movieId}/reservation", "/movie/reservation/{movieId}"}) 
-	public String movieRes(Model model, @PathVariable("movieId") Long movieId) {
-		
-		MovieFormDto movieFormDto = movieService.getMovieDtl(movieId);
-		model.addAttribute("movie", movieFormDto);
-		
-		return "screenInfo/screen";
-	}
 	
 	
 	// 영화 삭제

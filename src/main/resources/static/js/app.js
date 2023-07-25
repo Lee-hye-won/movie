@@ -1786,6 +1786,78 @@ $(document).ready(function () {
       },
       selectionDone: function (_array) {
         console.log(_array);
+        
+        
+        // ajax insert 
+        
+        $(document).ready(function() {
+			
+		//처음 상세페이지 화면에 들어올 때 총 상품금액에 보여야해서.
+			calculateTotalPrice(); 
+			
+			//수량 -,+버튼 누를 때마다 총 가격을 구한다. 
+			$(".count_btn").click(function() {
+				calculateTotalPrice();
+			})
+		});
+		
+		function as(){
+			var count = $("#count").val(); //수량
+			var totalPrice = (12000 * count).toLocaleString('ko-KR'); // 천단위 콤마 찍어줌. 
+			$("#totalPrice").html(totalPrice + '원'); //총 가격 출력
+		}
+        
+		function order() {
+			var token = $("meta[name='_csrf']").attr("content"); //meta에서 name='_csrf'를 가져올것이다.
+			var header = $("meta[name='_csrf_header']").attr("content");
+			
+			var url = " '/movie/' + ${movie.id} + '/reservation' ";
+			
+			//controller(서버)에 전달할 데이터. 
+			var paramData = {
+					resPeople : $("#count").val(), //수량
+					//price : $("#count").val() * 12000,
+				    //seatRow : $("#GridSeatNum").val(), 	// 좌석의 행
+				    //seatLine : $("#PhyRowId").val(),	// 좌석의 행
+				    
+				    
+				    selected : $(".selected").attr("value")
+				     
+			}
+			
+			//★전달하기 전에 데이터를 JSON > 문자열로 만들어야 한다. 
+			var param = JSON.stringify(paramData);
+			
+			$.ajax({
+				url : url, //request URL
+				type : "POST", //전송 방식
+				contentType : "application/json",
+				data : param, //itemId,count를 서버에 전송할 데이터. 
+				beforeSend : function(xhr) { //데이터 전송 전 헤더에 csrf값 설정. 
+					xhr.setRequestHeader(header,token);
+				},
+				dataType : "json",
+				cache : false,
+				success : function(status) {
+					alert("주문이 완료되었습니다.");
+					//location.href = '/';
+					
+				},
+				error : function(jqXHR, status, error) {
+						if(jqXHR.status == '401'){
+							alert('로그인 후 이용해주세요.')
+							location.href = '/members/login';
+						} else {
+							//에러메시지 출력(responseEntity에서 받아온 값을 출력해준다.)
+							alert(jqXHR.responseText); 
+						}
+				}
+			});
+		}
+
+        
+        
+        
       },
       cancel: function () {
         return false;
