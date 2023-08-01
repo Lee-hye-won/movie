@@ -1785,43 +1785,63 @@ $(document).ready(function () {
         console.log(_selected);
       },
       selectionDone: function (_array) {
-        console.log(_array);
+        var seatLines = [];
+        var seatRows = [];
         
         
-        // ajax insert 
+        for (var i = 0; i < _array.selected.length; i++) {
+    /*console.log("GridSeatNum:" + _array.selected[i].GridSeatNum);
+    console.log("PhyRowId:" + _array.selected[i].PhyRowId);*/
         
-        $(document).ready(function() {
-			
-		//처음 상세페이지 화면에 들어올 때 총 상품금액에 보여야해서.
-			calculateTotalPrice(); 
-			
-			//수량 -,+버튼 누를 때마다 총 가격을 구한다. 
-			$(".count_btn").click(function() {
-				calculateTotalPrice();
-			})
-		});
-		
-		function as(){
-			var count = $("#count").val(); //수량
-			var totalPrice = (12000 * count).toLocaleString('ko-KR'); // 천단위 콤마 찍어줌. 
-			$("#totalPrice").html(totalPrice + '원'); //총 가격 출력
-		}
+        var seatLine = _array.selected[i].GridSeatNum;
+        seatLines.push({seatLine}); 
+  }
+       console.log(seatLines);
+  
+  		
+ 
+ 		 for (var i = 0; i < _array.selected.length; i++) {
+	  
+       	 var seatRow = _array.selected[i].PhyRowId;
+       	 seatRows.push({seatRow}); 
+  }
+     	 console.log(seatRows);
+     	 
+     	 order(seatLines, seatRows);
+     	 
+     	 return { seatLines: seatLines, seatRows: seatRows };
+
+      },
+      cancel: function () {
+        return false;
+      },
+    });
+  }
+  loadGrid();
+
+  $(".call-load-function").click(function () {
+    loadGrid();
+  });
+  
+          // ajax insert 
         
-		function order() {
+          /*<![CDATA[*/
+		function order(seatLines, seatRows) {
 			var token = $("meta[name='_csrf']").attr("content"); //meta에서 name='_csrf'를 가져올것이다.
 			var header = $("meta[name='_csrf_header']").attr("content");
 			
-			var url = " '/movie/' + ${movie.id} + '/reservation' ";
+			
+			//const id = /*[[${movie.id}]]*/
+			
+			var url = '/movie/' + id + '/reservation';
 			
 			//controller(서버)에 전달할 데이터. 
 			var paramData = {
-					resPeople : $("#count").val(), //수량
-					//price : $("#count").val() * 12000,
-				    //seatRow : $("#GridSeatNum").val(), 	// 좌석의 행
-				    //seatLine : $("#PhyRowId").val(),	// 좌석의 행
+					resPeople : $("#count").val(), 
 				    
 				    
-				    selected : $(".selected").attr("value")
+				   seatLines: seatLines,	// 위의배열
+				   seatRows: seatRows	// 위의배열
 				     
 			}
 			
@@ -1829,7 +1849,7 @@ $(document).ready(function () {
 			var param = JSON.stringify(paramData);
 			
 			$.ajax({
-				url : url, //request URL
+				url : "/order", //request URL
 				type : "POST", //전송 방식
 				contentType : "application/json",
 				data : param, //itemId,count를 서버에 전송할 데이터. 
@@ -1854,19 +1874,6 @@ $(document).ready(function () {
 				}
 			});
 		}
-
-        
-        
-        
-      },
-      cancel: function () {
-        return false;
-      },
-    });
-  }
-  loadGrid();
-
-  $(".call-load-function").click(function () {
-    loadGrid();
-  });
+		 /*]]>*/
+		
 });

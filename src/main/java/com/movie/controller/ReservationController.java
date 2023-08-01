@@ -56,16 +56,21 @@ public class ReservationController {
 				}
 				
 				return new ResponseEntity<String>(sb.toString(),HttpStatus.BAD_REQUEST);
-				
-				// List<Object> selected = new ArrayList<>();
-				
-				
+			
 			}
 			
+			String email = principal.getName();
+			Long orderId;
 			
-			
-			
-			return new ResponseEntity<>(HttpStatus.OK);
+			try {
+				orderId = reservationService.reservation(reservationOrderDto, email);
+				System.out.println("111111" + reservationOrderDto.getSeatLine());
+			} catch (Exception e) {
+				e.printStackTrace();
+				return new ResponseEntity<String> (e.getMessage(), HttpStatus.BAD_REQUEST);
+			}
+			return new ResponseEntity<Long>(orderId, HttpStatus.OK);
+		
 		}
 		
 		// 주문 기능 

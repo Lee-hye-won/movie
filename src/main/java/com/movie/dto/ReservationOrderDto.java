@@ -2,8 +2,12 @@ package com.movie.dto;
 
 import java.util.List;
 
+import com.movie.entity.Member;
+import com.movie.entity.Reservation;
+
 import jakarta.validation.constraints.Max;
 import jakarta.validation.constraints.Min;
+import jakarta.validation.constraints.NotNull;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -11,14 +15,19 @@ import lombok.Setter;
 @Setter
 public class ReservationOrderDto {
 
-	@Min(value = 1, message = "최소 예매좌석은 1개 입니다")
-	@Max(value = 6, message = "최소 예매좌석은 6개 입니다")
-	private int resPeople;	
+	@NotNull(message = "영화아이디는 필수 입력입니다.")
+	private Long movieId;
 	
-//	private List<String> seatLine;	// 좌석 열 정보
-//	private List<String> seatRow;	// 좌석 행 정보
-	
-	private List<String> selected;
-	
+	private String resMovieName;
 
+	private String resDate;
+	
+	@Min(value = 1, message = "최소 예매수량은 1개 입니다")
+	@Max(value = 6, message = "최대 예매수량은6개 입니다")
+	private int resPeople;
+	
+	private List<String> seatLine;	// 예매좌석 열
+	private List<String> seatRow;	// 예매좌석 행
+
+	
 }

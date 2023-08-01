@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+	xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+	layout:decorate="~{layouts/layout1}">
+
+
+<th:block layout:fragment="css">
+	<style>
+.message .fieldError {
+	color: #ffffff;
+}
+</style>
+</th:block>
+
+<div layout:fragment="content">
+	<div class="row">
+		
+
+		<div class="product__page__title">
+			<div class="section-title">
+				<h4>나의 예매내역</h4>
+			</div>
+			<div class="card" style="width: 18rem;">
+				<img src="" class="rounded repImg" th:alt="${movie.title}">
+				<div class="card-body">
+					<h5 class="card-title">영화명</h5>
+
+				</div>
+				<ul class="list-group list-group-flush">
+
+					<li class="list-group-item">상영관</li>
+					<li class="list-group-item">인원수</li>
+					<li class="list-group-item">좌석번호</li>
+					<li class="list-group-item">상영시간</li>
+					
+				</ul>
+
+			</div>
+		</div>
+	</div>
+</html>

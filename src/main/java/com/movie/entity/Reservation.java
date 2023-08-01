@@ -1,7 +1,10 @@
 package com.movie.entity;
 
-import java.time.LocalDateTime;
+
+import java.util.ArrayList;
 import java.util.List;
+
+
 
 import jakarta.persistence.*;
 import lombok.*;
@@ -68,6 +71,27 @@ public class Reservation {
 	private Member member;
 	
 	
+	@OneToMany(mappedBy = "reservation",
+			cascade = CascadeType.ALL,
+			orphanRemoval = true, fetch = FetchType.LAZY)
+	private List<ReservationMovie> reservationMovies = new ArrayList<>();
 	
+	public void addOrderItem(ReservationMovie reservationMovie) {
+		this.reservationMovies.add(reservationMovie);
+		reservationMovie.setReservation(this);
+	}
+	
+	
+	// Reservation 객체생성 
+	public static Reservation createOrder(Member member, List<ReservationMovie> reservationMovieList) {
+		Reservation reservation = new Reservation();
+		reservation.setMember(member);
+		
+		for(ReservationMovie reservationMovie : reservationMovieList) {
+			reservation.addOrderItem(reservationMovie);
+		}
+		
+		return reservation;
+	}
 	
 }
