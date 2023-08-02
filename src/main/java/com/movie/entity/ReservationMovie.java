@@ -1,6 +1,10 @@
 package com.movie.entity;
 
+import java.time.LocalDateTime;
+
 import org.hibernate.annotations.ManyToAny;
+
+import com.movie.dto.ReservationMovieDto;
 
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
@@ -41,8 +45,12 @@ public class ReservationMovie extends BaseEntity{
 	
 	public static ReservationMovie createOrderMovie(Movie movie, int count) {
 		ReservationMovie reservationMovie = new ReservationMovie();
+
 		reservationMovie.setMovie(movie);
+		
 		reservationMovie.setCount(count);
+		reservationMovie.setRegTime(LocalDateTime.now());
+		
 		
 		return reservationMovie;
 	}

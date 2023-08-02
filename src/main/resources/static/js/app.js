@@ -1831,19 +1831,58 @@ $(document).ready(function () {
 			var header = $("meta[name='_csrf_header']").attr("content");
 			
 			
+			
+			var seatRows = []; //시트 열(알파벳)
+        	var seatLines = []; //시트 행(숫자)
+       		var seatInfo = []; //시트 행열(알파벳 + 숫자)
+       /* var selected = []; */
+        
+        for(i = 0; i < _array.selected.length; i++) {
+			var gridSeatNum = _array.selected[i].GridSeatNum;
+			
+			seatLines.push(gridSeatNum);
+			
+			var rowId = _array.selected[i].PhyRowId;
+			
+			seatRows.push(rowId);
+			
+			/*console.log(phyRowId[i] + seatNumber[i]);*/
+			
+        
+        seatInfo.push(seatRows[i] + seatLines[i]);
+        
+        
+		}
+			
+			
 			//const id = /*[[${movie.id}]]*/
 			
-			var url = '/movie/' + id + '/reservation';
+			//var url = '/movie/' + id + '/reservation';
+			
+			
+			/* 
+			var seatLineResult = [];
+			for(var i in seatLines) {
+				seatLineResult.push(seatLines[i].seatLine);
+				
+			}
+			
+			var seatRowResult = [];
+			for(var i in seatRows) {
+				seatRowResult.push(seatRows[i].seatRow);
+				
+			}
 			
 			//controller(서버)에 전달할 데이터. 
 			var paramData = {
 					resPeople : $("#count").val(), 
-				    
-				    
-				   seatLines: seatLines,	// 위의배열
-				   seatRows: seatRows	// 위의배열
+					movieId : $("#movieId").val(),
+				   seatLine: seatLineResult,	// 위의배열
+				   seatRow: seatRowResult	// 위의배열
 				     
 			}
+			
+			*/
 			
 			//★전달하기 전에 데이터를 JSON > 문자열로 만들어야 한다. 
 			var param = JSON.stringify(paramData);
@@ -1860,7 +1899,7 @@ $(document).ready(function () {
 				cache : false,
 				success : function(status) {
 					alert("주문이 완료되었습니다.");
-					//location.href = '/';
+					location.href = '/';
 					
 				},
 				error : function(jqXHR, status, error) {

@@ -4,7 +4,7 @@ package com.movie.entity;
 import java.util.ArrayList;
 import java.util.List;
 
-
+import com.movie.dto.ReservationMovieDto;
 
 import jakarta.persistence.*;
 import lombok.*;
@@ -20,7 +20,7 @@ public class Reservation {
 	@Column(name="res_num")
 	@GeneratedValue(strategy = GenerationType.AUTO)
 	private Long resNum;	// 예약 고유번호
-	
+	//--------------------------
 	@Column(name="res_movie_num")
 	private Long resMovieNum;	// 예매 영화 고유번호
 	
@@ -32,6 +32,7 @@ public class Reservation {
 	
 	@Column(name="res_screen_name")
 	private String resScreenName;	// 예약 상영관명
+	//--------------------------
 	
 	@Column(name="res_date")
 	private String resDate;	// 예매 상영날짜
@@ -70,26 +71,27 @@ public class Reservation {
 	@JoinColumn(name = "member_id")
 	private Member member;
 	
+	private ReservationMovie reservationMovie;
+//	@OneToMany(mappedBy = "reservation",
+//			cascade = CascadeType.ALL,
+//			orphanRemoval = true, fetch = FetchType.LAZY)
+//	private ReservationMovie reservationMovie;
+//	private List<ReservationMovie> reservationMovies = new ArrayList<>();
 	
-	@OneToMany(mappedBy = "reservation",
-			cascade = CascadeType.ALL,
-			orphanRemoval = true, fetch = FetchType.LAZY)
-	private List<ReservationMovie> reservationMovies = new ArrayList<>();
-	
-	public void addOrderItem(ReservationMovie reservationMovie) {
-		this.reservationMovies.add(reservationMovie);
-		reservationMovie.setReservation(this);
-	}
+//	public void addOrderItem(ReservationMovie reservationMovie) {
+//		reservationMovie.setReservation(this);
+//	}
 	
 	
 	// Reservation 객체생성 
-	public static Reservation createOrder(Member member, List<ReservationMovie> reservationMovieList) {
+	public static Reservation createOrder(Member member, ReservationMovie reservationMovie, ReservationMovieDto reservationMovieDto) {
 		Reservation reservation = new Reservation();
 		reservation.setMember(member);
 		
-		for(ReservationMovie reservationMovie : reservationMovieList) {
-			reservation.addOrderItem(reservationMovie);
-		}
+		reservation.setReservationMovie(reservationMovie);
+		
+		reservation.setMovie(reservationMovieDto.getMovie());
+		
 		
 		return reservation;
 	}

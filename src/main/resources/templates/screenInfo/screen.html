@@ -36,7 +36,7 @@ body {
 
 
 <div layout:fragment="content" style="height:1000px;">
-
+    <input type="hidden" name="movieId" id="movieId" th:value=${movie.id}>
 	<input type="text" class="nuberOfSeat" placeholder="Number of seats"
 		value="" id="count" onchange="as()"/>
 	<button class="call-load-function">선택</button>
@@ -86,8 +86,8 @@ body {
 </div>
 
 <th:block layout:fragment="script">
-	<script th:src="@{/js/app.js}"></script>
 	<script th:src="@{/js/jquery.js}"></script>
+	<script th:src="@{/js/app.js}"></script>
 	<script th:src="@{/js/seatLayout.min.js}"></script>
 	<script th:inline="javascript">
 	
@@ -99,56 +99,7 @@ body {
 			$("#totalPrice").html(totalPrice + '원'); //총 가격 출력
 		}
 		
-		 /*<![CDATA[*/
-		function order(seatLines, seatRows) {
-			var token = $("meta[name='_csrf']").attr("content"); //meta에서 name='_csrf'를 가져올것이다.
-			var header = $("meta[name='_csrf_header']").attr("content");
-			
-			
-			const id = /*[[${movie.id}]]*/;
-			
-			var url = '/movie/' + id + '/reservation';
-			
-			//controller(서버)에 전달할 데이터. 
-			var paramData = {
-					resPeople : $("#count").val(), 
-				    
-				    
-				   seatLines: seatLines,	// 위의배열
-				   seatRows: seatRows	// 위의배열
-				     
-			}
-			
-			//★전달하기 전에 데이터를 JSON > 문자열로 만들어야 한다. 
-			var param = JSON.stringify(paramData);
-			
-			$.ajax({
-				url : "/order", //request URL
-				type : "POST", //전송 방식
-				contentType : "application/json",
-				data : param, //itemId,count를 서버에 전송할 데이터. 
-				beforeSend : function(xhr) { //데이터 전송 전 헤더에 csrf값 설정. 
-					xhr.setRequestHeader(header,token);
-				},
-				dataType : "json",
-				cache : false,
-				success : function(status) {
-					alert("주문이 완료되었습니다.");
-					//location.href = '/';
-					
-				},
-				error : function(jqXHR, status, error) {
-						if(jqXHR.status == '401'){
-							alert('로그인 후 이용해주세요.')
-							location.href = '/members/login';
-						} else {
-							//에러메시지 출력(responseEntity에서 받아온 값을 출력해준다.)
-							alert(jqXHR.responseText); 
-						}
-				}
-			});
-		}
-		/*]]>*/
+		
 		
 	</script>
 </th:block>

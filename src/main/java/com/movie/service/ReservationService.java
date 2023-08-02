@@ -11,6 +11,7 @@ import org.springframework.transaction.annotation.Transactional;
 import org.thymeleaf.util.StringUtils;
 
 import com.movie.dto.ReservationHistDto;
+import com.movie.dto.ReservationMovieDto;
 import com.movie.dto.ReservationOrderDto;
 import com.movie.entity.Member;
 import com.movie.entity.Movie;
@@ -19,6 +20,7 @@ import com.movie.entity.ReservationMovie;
 import com.movie.repository.MemberRepository;
 import com.movie.repository.MovieImgRepository;
 import com.movie.repository.MovieRepository;
+import com.movie.repository.OrderMovieRepository;
 import com.movie.repository.OrderRepository;
 
 
@@ -35,29 +37,40 @@ public class ReservationService {
 	private final MemberRepository memberRepository;
 	private final MovieImgRepository movieImgRepository;
 	private final OrderRepository orderRepository;
+	private final OrderMovieRepository orderMovieRepository;
+	
 	
 	// 주문할 영화를 조회
-	public Long reservation(ReservationOrderDto reservationOrderDto, String email) {
+	public Movie reservation(ReservationOrderDto reservationOrderDto, String email) {
 		Movie movie = movieRepository.findById(reservationOrderDto.getMovieId())
 									 .orElseThrow(EntityNotFoundException::new);
-		
+		System.out.println(movie.getTitle() + "GGGGGGGG");
 		// 현재 로그인한 회원의 이메일 사용해서 회원 정보 조회
 		Member member = memberRepository.findByEmail(email);
+		System.out.println("11111111111111111111111111");
+//		List<String> seatLine = new ArrayList<>();
+//		seatLine = reservationOrderDto.getSeatLine();
+//	
+//		List<String> RowLine = new ArrayList<>();
+//		RowLine = reservationOrderDto.getSeatRow();
 		
-		List<String> seatLine = new ArrayList<>();
-		seatLine = reservationOrderDto.getSeatLine();
+//		List<ReservationMovie> reservationMovieList = new ArrayList<>();
 		
-		List<String> RowLine = new ArrayList<>();
-		RowLine = reservationOrderDto.getSeatRow();
-		
-		List<ReservationMovie> reservationMovieList = new ArrayList<>();
 		ReservationMovie reservationMovie = ReservationMovie.createOrderMovie(movie, reservationOrderDto.getResPeople());
-		reservationMovieList.add(reservationMovie);
+		System.out.println("222222222222222");
 		
-		Reservation reservation = Reservation.createOrder(member, reservationMovieList);
+		//		reservationMovieList.add(reservationMovie);
+		orderMovieRepository.save(reservationMovie);
+		System.out.println("333333333333333333");
+		
+		ReservationMovieDto reservationMovieDto = new ReservationMovieDto(reservationMovie);
+		System.out.println("444444444444444");
+		
+		Reservation reservation = Reservation.createOrder(member, reservationMovie, reservationMovieDto);
+		System.out.println("555555555555555");
 		orderRepository.save(reservation);
-		
-		return reservation.getResMovieNum();
+		System.out.println("666666666666666666");
+		return reservation.getMovie();
 	}
 	
 	//주문 목록을 가져오는 서비스
@@ -73,14 +86,14 @@ public class ReservationService {
 		List<ReservationHistDto> ReservationHistDto = new ArrayList<>();
 		
 		//3. 주문리스트를 순회하면서 구매 이력 페이지에 전달할 DTO(OrderHistDto)를 생성
-		for(Reservation reservation : reservations) {
-			ReservationHistDto reservationHistDto = new ReservationHistDto(reservation);
-			List<ReservationMovie> reservationMovie = reservation.getReservationMovies();
-			
-
-			ReservationHistDto.add(reservationHistDto);
-			
-		}
+//		for(Reservation reservation : reservations) {
+//			ReservationHistDto reservationHistDto = new ReservationHistDto(reservation);
+//			List<ReservationMovie> reservationMovie = reservation.getReservationMovies();
+//			
+//
+//			ReservationHistDto.add(reservationHistDto);
+//			
+//		}
 		
 		return new PageImpl<>(ReservationHistDto, pageable,totalCount); //4. 페이지 구현 객체를 생성하여 return
 	}

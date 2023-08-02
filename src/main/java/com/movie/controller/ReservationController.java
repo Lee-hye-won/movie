@@ -17,7 +17,9 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.movie.dto.MovieFormDto;
+import com.movie.dto.ReservationMovieDto;
 import com.movie.dto.ReservationOrderDto;
+import com.movie.entity.Movie;
 import com.movie.service.MovieService;
 import com.movie.service.ReservationService;
 
@@ -46,6 +48,16 @@ public class ReservationController {
 		public @ResponseBody ResponseEntity order(@RequestBody @Valid ReservationOrderDto reservationOrderDto,
 					BindingResult bindingResult, Principal principal) {
 			
+			List<String> seatLine = reservationOrderDto.getSeatLine();
+			List<String> seatRow = reservationOrderDto.getSeatLine();
+			
+			for(String st1 : seatLine) {				
+				System.out.println(st1 + "LLLLLLL");
+			}
+			for(String st2 : seatRow) {				
+				System.out.println(st2 + "ZZZZZZZZZZZ");
+			}
+			
 			//바인딩 에러 처리. 
 			if(bindingResult.hasErrors()) {
 				StringBuilder sb = new StringBuilder();
@@ -60,16 +72,18 @@ public class ReservationController {
 			}
 			
 			String email = principal.getName();
-			Long orderId;
+			Movie orderId;
 			
 			try {
+				System.out.println("2222222222");
 				orderId = reservationService.reservation(reservationOrderDto, email);
-				System.out.println("111111" + reservationOrderDto.getSeatLine());
+				System.out.println(orderId);
+
 			} catch (Exception e) {
 				e.printStackTrace();
 				return new ResponseEntity<String> (e.getMessage(), HttpStatus.BAD_REQUEST);
 			}
-			return new ResponseEntity<Long>(orderId, HttpStatus.OK);
+			return new ResponseEntity<Long>(orderId.getId(), HttpStatus.OK);
 		
 		}
 		

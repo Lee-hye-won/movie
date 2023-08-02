@@ -15,7 +15,6 @@ import lombok.Setter;
 @Setter
 public class ReservationOrderDto {
 
-	@NotNull(message = "영화아이디는 필수 입력입니다.")
 	private Long movieId;
 	
 	private String resMovieName;
